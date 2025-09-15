@@ -40,6 +40,10 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def check_owner
-    head :forbidden unless @user.id == current_user&.id
+    begin
+      head :forbidden unless @user.id == current_user&.id
+    rescue StandardError => exception
+     head :forbidden, error: exception
+    end
   end
 end
